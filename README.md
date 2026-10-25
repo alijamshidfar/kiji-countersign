@@ -134,6 +134,17 @@ Only outside your memory: reports, state and caches in `~/.countersign/` (`lates
 `ignore.txt` for items you have marked as not an error). `PLAYBOOK.md` in a project root is written
 only by `apply`, after you countersign.
 
+## Data and network
+
+Everything Countersign runs, reads, sends and stores:
+
+- **Reads** your Claude Code memory folder, the `PLAYBOOK.md` of configured projects, their review files and session notes. Read only.
+- **Writes** reports, state and caches to `~/.countersign/`, and `PLAYBOOK.md` in a configured project only when you run `apply`.
+- **Local network:** if Ollama runs on your machine, text from memories and your prompt is sent to it (default `http://localhost:11434`) to make embeddings. Nothing leaves your machine for this.
+- **Claude:** the weekly proposals (`check.py --weekly`, `playbook.py reflect`) run your own `claude` CLI headless, with no tools and no MCP servers, sending memory descriptions, session-note lines and review excerpts to Claude, the same way any Claude Code session does.
+- **Commands:** project gates and `notify_command` run only if you put them in your own config (`~/.config/countersign/config.json`); a project's `.countersign.json` cannot set them.
+- No telemetry, no other network calls, no third-party packages.
+
 ## Prior work
 
 Agentic Context Engineering (ACE, ICLR 2026) for playbooks with counters; Dynamic Cheatsheet;
