@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "kiji-countersign",
+  "description": "Countersign: memory and learning for Claude Code, with a person's countersignature on every lesson.",
+  "owner": {
+    "name": "Kiji Intelligence",
+    "url": "https://kijiintel.com"
+  },
+  "plugins": [
+    {
+      "name": "countersign",
+      "description": "Nightly memory check, recall on every message, per-project playbooks with countersigned lessons.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
