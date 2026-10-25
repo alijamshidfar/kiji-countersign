@@ -29,8 +29,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import (STATE, claude_json, cosine, embed, frontmatter, is_index, load_config,  # noqa: E402
-                    memories, memory_dir, notify, sha)
+from common import (STATE, cosine, embed, frontmatter, headless, is_index, load_config,  # noqa: E402
+                    memories, memory_dir, sha)
+from runner import claude_json, notify  # noqa: E402
 
 TYPES = {"user", "feedback", "project", "reference"}
 INJECTION = re.compile(
@@ -249,14 +250,15 @@ def main():
     ap.add_argument("--brief", action="store_true", help="print one line only")
     ap.add_argument("--cwd")
     a = ap.parse_args()
-    if a.daily and "sdk" in os.environ.get("CLAUDE_CODE_ENTRYPOINT", ""):
-        return
-    cwd = a.cwd
+    cwd, hook = a.cwd, {}
     if not cwd and not sys.stdin.isatty():
         try:
-            cwd = json.load(sys.stdin).get("cwd")
+            hook = json.load(sys.stdin)
+            cwd = hook.get("cwd")
         except Exception:
-            cwd = None
+            hook = {}
+    if a.daily and headless(hook):
+        return
     cfg = load_config(cwd)
     mem = memory_dir(cfg, cwd)
     if not mem.exists():

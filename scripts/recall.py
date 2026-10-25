@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import STATE, cosine, embed, frontmatter, load_config, memories, memory_dir, sha, words  # noqa: E402
+from common import STATE, cosine, embed, frontmatter, headless, load_config, memories, memory_dir, sha, words  # noqa: E402
 
 MIN_PROMPT = 12
 MIN_SCORE = 0.64      # embedding + boost needed when a rare word is shared
@@ -37,11 +37,11 @@ def describe(fm, text):
 
 
 def main():
-    if "sdk" in os.environ.get("CLAUDE_CODE_ENTRYPOINT", ""):
-        return
     try:
         hook = json.load(sys.stdin)
     except Exception:
+        return
+    if headless(hook):
         return
     prompt = hook.get("prompt", "")
     if len(prompt.strip()) < MIN_PROMPT:

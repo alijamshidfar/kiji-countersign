@@ -32,7 +32,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import STATE, claude_json, load_config  # noqa: E402
+from common import STATE, load_config  # noqa: E402
+from runner import claude_json  # noqa: E402
 
 ITEM = re.compile(r"^- \[(P\d{3}) \+(\d+)/−(\d+)\] (.+?)(?: \(source: (.+)\))?$")
 

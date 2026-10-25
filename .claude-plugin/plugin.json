@@ -1,6 +1,6 @@
 {
   "name": "countersign",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Memory and learning for Claude Code, for work that has to survive review: a nightly memory check, recall on every message, and per-project playbooks whose lessons a person countersigns.",
   "author": {
     "name": "Kiji Intelligence",
@@ -9,5 +9,12 @@
   "homepage": "https://kijiintel.com/labs",
   "repository": "https://github.com/alijamshidfar/kiji-countersign",
   "license": "MIT",
-  "keywords": ["memory", "learning", "playbook", "governance", "review", "recall"]
+  "keywords": [
+    "memory",
+    "learning",
+    "playbook",
+    "governance",
+    "review",
+    "recall"
+  ]
 }
