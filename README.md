@@ -136,6 +136,8 @@ only by `apply`, after you countersign.
 
 ## Data and network
 
+<a id="privacy"></a>Privacy: Countersign has no server and collects nothing. This section is its privacy policy.
+
 Everything Countersign runs, reads, sends and stores:
 
 - **Reads** your Claude Code memory folder, the `PLAYBOOK.md` of configured projects, their review files and session notes. Read only.
