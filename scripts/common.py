@@ -30,7 +30,7 @@ DEFAULTS = {
     # that the weekly capture reads. Empty: capture is skipped.
     "notes_dir": "",
     "ollama_url": "http://localhost:11434",
-    "embed_model": "nomic-embed-text",
+    "embed_model": "bge-m3",
     "claude_cmd": "claude",
     "claude_model": "sonnet",
     # Shell command that receives the weekly report on stdin, e.g. "mail -s Countersign me@x".

@@ -1,6 +1,6 @@
 {
   "name": "countersign",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Memory and learning for Claude Code, for work that has to survive review: a nightly memory check, recall on every message, and per-project playbooks whose lessons a person countersigns.",
   "author": {
     "name": "Kiji Intelligence",

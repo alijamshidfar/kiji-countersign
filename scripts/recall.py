@@ -20,9 +20,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import STATE, cosine, embed, frontmatter, headless, load_config, memories, memory_dir, sha, words  # noqa: E402
 
 MIN_PROMPT = 12
-MIN_SCORE = 0.64      # embedding + boost needed when a rare word is shared
-COS_ALONE = 0.75      # embedding alone, no shared rare word
-RARE_BOOST = 0.16
+MIN_SCORE = 0.66      # embedding + boost needed when a rare word is shared (bge-m3 scale)
+COS_ALONE = 0.56      # embedding alone, no shared rare word (bge-m3 scale)
+RARE_BOOST = 0.20
 RARE_MAX = 5          # a word in at most this many memories counts as rare
 KEYWORD_ONLY_MIN = 2  # without embeddings: at least this many shared rare words
 
@@ -84,21 +84,23 @@ def main():
         for w in d["keys"]:
             df[w] = df.get(w, 0) + 1
 
-    # Embeddings, cached by content hash.
-    cache_file = STATE / "recall-cache.json"
+    # Embeddings, cached by content hash and model. nomic models want task prefixes; bge-m3 does not.
+    model = str(cfg.get("embed_model", ""))
+    dp, qp = ("search_document: ", "search_query: ") if model.startswith("nomic") else ("", "")
+    cache_file = STATE / f"recall-cache-{re.sub(r'[^A-Za-z0-9.-]', '_', model)}.json"
     try:
         cache = json.loads(cache_file.read_text())
     except (OSError, ValueError):
         cache = {}
     todo = [k for k, d in docs.items() if cache.get(k, {}).get("h") != sha(d["text"])]
     if todo:
-        vecs = embed(cfg, [f"search_document: {docs[k]['text']}" for k in todo], timeout=60)
+        vecs = embed(cfg, [f"{dp}{docs[k]['text']}" for k in todo], timeout=60)
         if vecs:
             for k, v in zip(todo, vecs):
                 cache[k] = {"h": sha(docs[k]["text"]), "v": [round(x, 5) for x in v]}
             STATE.mkdir(parents=True, exist_ok=True)
             cache_file.write_text(json.dumps({k: v for k, v in cache.items() if k in docs}))
-    qv = embed(cfg, [f"search_query: {prompt[:1000]}"], timeout=3)
+    qv = embed(cfg, [f"{qp}{prompt[:1000]}"], timeout=3)
     qv = qv[0] if qv else None
 
     scored = []

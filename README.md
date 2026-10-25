@@ -75,7 +75,7 @@ A playbook after a few weeks of reviews (lessons proposed by the reviewer, each 
 ```
 
 Requirements: Python 3.9+ (standard library only). Optional: [Ollama](https://ollama.com) with
-`nomic-embed-text` for better recall and the duplicate check; without it recall uses keyword
+`bge-m3` (`ollama pull bge-m3`, multilingual) for better recall and the duplicate check; without it recall uses keyword
 matching and the duplicate check is skipped.
 
 ## Configure
